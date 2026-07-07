@@ -20,7 +20,7 @@ const CARD_WIDTH = (SCREEN_WIDTH - Spacing.containerPadding * 2 - Spacing.gutter
 
 export function ProductCard({ product, isFavorite, onToggleFavorite }: Props) {
   const handlePress = useCallback(() => {
-    router.push(`/product/${product.id}`);
+    router.push(`/product/${product.id}` as any);
   }, [product.id]);
 
   const handleFavorite = useCallback(() => {

@@ -16,7 +16,7 @@ export default function FavoritesScreen() {
   const favoriteProducts = products.filter((p) => favoriteIds.has(p.id));
 
   const handleExplore = useCallback(() => {
-    router.push('/(tabs)/');
+    router.push('/(tabs)' as any);
   }, [router]);
 
   const renderItem = useCallback(

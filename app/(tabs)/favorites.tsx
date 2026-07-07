@@ -49,6 +49,7 @@ export default function FavoritesScreen() {
           columnWrapperStyle={styles.row}
           contentContainerStyle={styles.listContent}
           renderItem={renderItem}
+          extraData={favoriteIds}
           initialNumToRender={6}
           showsVerticalScrollIndicator={false}
         />

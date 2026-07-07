@@ -45,6 +45,7 @@ export default function HomeScreen() {
     error,
     onRefresh,
     retry,
+    favoriteIds,
     isFavorite,
     toggleFavorite,
   } = useAppContext();
@@ -97,6 +98,7 @@ export default function HomeScreen() {
         contentContainerStyle={styles.listContent}
         ListHeaderComponent={HomeListHeader}
         renderItem={renderItem}
+        extraData={favoriteIds}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

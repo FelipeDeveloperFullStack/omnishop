@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
   chip: {
-    paddingHorizontal: 16,
-    paddingVertical: 6,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderRadius: 9999,
     backgroundColor: Colors.surfaceContainerHigh,
   },
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   },
   chipText: {
     ...Typography.labelMd,
+    fontSize: 14,
     color: Colors.onSurfaceVariant,
   },
   chipTextActive: {

@@ -4,7 +4,6 @@ import {
   View,
   FlatList,
   StyleSheet,
-  Text,
   RefreshControl,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,8 +13,9 @@ import { SearchBar } from '@/components/SearchBar';
 import { CategoryChips } from '@/components/CategoryChips';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { ErrorState } from '@/components/ErrorState';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import { Colors } from '@/constants/colors';
-import { Typography, Spacing } from '@/constants/typography';
+import { Spacing } from '@/constants/typography';
 import { Product } from '@/types';
 
 // Componente extraído em nível de módulo para que o FlatList receba sempre
@@ -60,16 +60,10 @@ export default function HomeScreen() {
     [isFavorite, toggleFavorite],
   );
 
-  const TopBar = (
-    <View style={styles.topBar}>
-      <Text style={styles.appTitle}>OmniShop</Text>
-    </View>
-  );
-
   if (loading) {
     return (
       <SafeAreaView style={styles.container}>
-        {TopBar}
+        <ScreenHeader title="OmniShop" />
         <LoadingSpinner />
       </SafeAreaView>
     );
@@ -78,7 +72,7 @@ export default function HomeScreen() {
   if (error) {
     return (
       <SafeAreaView style={styles.container}>
-        {TopBar}
+        <ScreenHeader title="OmniShop" />
         <ErrorState onRetry={retry} />
       </SafeAreaView>
     );
@@ -86,7 +80,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {TopBar}
+      <ScreenHeader title="OmniShop" />
       <FlatList
         data={filteredProducts}
         keyExtractor={(item) => item.id.toString()}
@@ -117,24 +111,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.surface,
-  },
-  topBar: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.containerPadding,
-    paddingVertical: Spacing.stackSm,
-    backgroundColor: Colors.surface,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    elevation: 4,
-    zIndex: 10,
-  },
-  appTitle: {
-    ...Typography.headlineLgMobile,
-    color: Colors.primary,
   },
   listHeader: {
     paddingHorizontal: Spacing.containerPadding,

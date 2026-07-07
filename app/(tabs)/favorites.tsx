@@ -1,14 +1,15 @@
 // app/(tabs)/favorites.tsx
 import React, { useCallback } from 'react';
-import { View, FlatList, StyleSheet, Text } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { useRouter } from 'expo-router';
 import { useAppContext } from '@/context/AppContext';
 import { ProductCard } from '@/components/ProductCard';
 import { EmptyState } from '@/components/EmptyState';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import { Colors } from '@/constants/colors';
-import { Typography, Spacing } from '@/constants/typography';
+import { Spacing } from '@/constants/typography';
 import { Product } from '@/types';
 
 export default function FavoritesScreen() {
@@ -34,9 +35,7 @@ export default function FavoritesScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.topBar}>
-        <Text style={styles.title}>Meus Favoritos</Text>
-      </View>
+      <ScreenHeader title="Meus Favoritos" />
       {loading ? (
         <LoadingSpinner />
       ) : favoriteProducts.length === 0 ? (
@@ -62,24 +61,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.surface,
-  },
-  topBar: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.containerPadding,
-    paddingVertical: Spacing.stackSm,
-    backgroundColor: Colors.surface,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    elevation: 4,
-    zIndex: 10,
-  },
-  title: {
-    ...Typography.headlineMd,
-    color: Colors.primary,
   },
   listContent: {
     paddingHorizontal: Spacing.containerPadding,

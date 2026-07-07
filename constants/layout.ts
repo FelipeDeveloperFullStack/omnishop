@@ -1,11 +1,19 @@
 // constants/layout.ts
-import { Dimensions } from 'react-native';
 import { Spacing } from './typography';
 
-export const SCREEN_WIDTH = Dimensions.get('window').width;
+// Número de colunas do grid baseado na largura da tela
+export function getNumColumns(screenWidth: number): number {
+  if (screenWidth >= 1024) return 4;
+  if (screenWidth >= 768) return 3;
+  return 2;
+}
 
-export const CARD_WIDTH =
-  (SCREEN_WIDTH - Spacing.containerPadding * 2 - Spacing.gutter) / 2;
+// Padding horizontal dos containers baseado na largura da tela
+export function getHorizontalPadding(screenWidth: number): number {
+  if (screenWidth >= 1024) return 32;
+  if (screenWidth >= 768) return 24;
+  return Spacing.containerPadding;
+}
 
 export const Shadows = {
   sm: {

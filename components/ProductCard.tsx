@@ -7,7 +7,7 @@ import { router } from 'expo-router';
 import { Product } from '@/types';
 import { Colors } from '@/constants/colors';
 import { Typography, Spacing } from '@/constants/typography';
-import { CARD_WIDTH, Shadows } from '@/constants/layout';
+import { Shadows } from '@/constants/layout';
 import { RatingBadge } from './RatingBadge';
 
 interface Props {
@@ -70,7 +70,7 @@ export function ProductCard({ product, isFavorite, onToggleFavorite }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    width: CARD_WIDTH,
+    flex: 1,
     backgroundColor: Colors.surfaceContainerLowest,
     borderRadius: 12,
     overflow: 'hidden',

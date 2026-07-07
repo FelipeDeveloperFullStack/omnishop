@@ -9,7 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Colors } from '@/constants/colors';
 import { Spacing } from '@/constants/typography';
-import { CARD_WIDTH, Shadows } from '@/constants/layout';
+import { Shadows } from '@/constants/layout';
 
 export function SkeletonCard() {
   const opacity = useSharedValue(1);
@@ -34,7 +34,7 @@ export function SkeletonCard() {
 
 const styles = StyleSheet.create({
   card: {
-    width: CARD_WIDTH,
+    flex: 1,
     backgroundColor: Colors.surfaceContainerLowest,
     borderRadius: 12,
     overflow: 'hidden',

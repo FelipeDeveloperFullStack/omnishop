@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
@@ -24,6 +25,10 @@ export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { isFavorite, toggleFavorite } = useAppContext();
+  const { width: screenWidth } = useWindowDimensions();
+  const isTablet = screenWidth >= 768;
+  // Largura máxima do conteúdo em tablets — centraliza sem esticar
+  const contentMaxWidth = isTablet ? Math.min(screenWidth * 0.85, 860) : undefined;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -97,40 +102,43 @@ export default function ProductDetailScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Hero Image */}
-        <View style={styles.heroContainer}>
-          <Image
-            source={{ uri: product.image }}
-            style={styles.heroImage}
-            contentFit="contain"
-            transition={300}
-          />
-        </View>
-
-        {/* Details Panel */}
-        <View style={styles.panel}>
-          {/* Category + Rating row */}
-          <View style={styles.metaRow}>
-            <View style={styles.categoryBadge}>
-              <Text style={styles.categoryText}>
-                {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
-              </Text>
-            </View>
-            <RatingBadge rate={product.rating.rate} count={product.rating.count} />
+        {/* Wrapper centralizado para tablets */}
+        <View style={{ maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }}>
+          {/* Hero Image */}
+          <View style={[styles.heroContainer, isTablet && styles.heroContainerTablet]}>
+            <Image
+              source={{ uri: product.image }}
+              style={styles.heroImage}
+              contentFit="contain"
+              transition={300}
+            />
           </View>
 
-          {/* Title */}
-          <Text style={styles.title}>{product.title}</Text>
+          {/* Details Panel */}
+          <View style={styles.panel}>
+            {/* Category + Rating row */}
+            <View style={styles.metaRow}>
+              <View style={styles.categoryBadge}>
+                <Text style={styles.categoryText}>
+                  {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
+                </Text>
+              </View>
+              <RatingBadge rate={product.rating.rate} count={product.rating.count} />
+            </View>
 
-          {/* Price */}
-          <Text style={styles.price}>$ {product.price.toFixed(2)}</Text>
+            {/* Title */}
+            <Text style={styles.title}>{product.title}</Text>
 
-          {/* Divider */}
-          <View style={styles.divider} />
+            {/* Price */}
+            <Text style={styles.price}>$ {product.price.toFixed(2)}</Text>
 
-          {/* Description */}
-          <Text style={styles.sectionTitle}>Sobre o Produto</Text>
-          <Text style={styles.description}>{product.description}</Text>
+            {/* Divider */}
+            <View style={styles.divider} />
+
+            {/* Description */}
+            <Text style={styles.sectionTitle}>Sobre o Produto</Text>
+            <Text style={styles.description}>{product.description}</Text>
+          </View>
         </View>
       </ScrollView>
 
@@ -138,7 +146,11 @@ export default function ProductDetailScreen() {
       <View style={styles.bottomBar}>
         <SafeAreaView>
           <TouchableOpacity
-            style={[styles.favoriteButton, favorited && styles.favoriteButtonActive]}
+            style={[
+              styles.favoriteButton,
+              favorited && styles.favoriteButtonActive,
+              isTablet && styles.favoriteButtonTablet,
+            ]}
             onPress={handleToggleFavorite}
             activeOpacity={0.85}
           >
@@ -207,7 +219,13 @@ const styles = StyleSheet.create({
   heroContainer: {
     width: '100%',
     aspectRatio: 1,
+    maxHeight: 480,
     backgroundColor: Colors.surfaceContainerLowest,
+  },
+  heroContainerTablet: {
+    maxHeight: 420,
+    borderRadius: 16,
+    overflow: 'hidden',
   },
   heroImage: {
     width: '100%',
@@ -292,6 +310,10 @@ const styles = StyleSheet.create({
   },
   favoriteButtonActive: {
     backgroundColor: Colors.error,
+  },
+  favoriteButtonTablet: {
+    maxWidth: 480,
+    alignSelf: 'center',
   },
   favoriteButtonText: {
     ...Typography.headlineMd,

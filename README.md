@@ -1,50 +1,86 @@
-# Welcome to your Expo app 👋
+# OmniShop
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicativo mobile de e-commerce desenvolvido com React Native e Expo como teste técnico.
 
-## Get started
+## Pré-requisitos
 
-1. Install dependencies
+- Node.js 18+
+- npm ou yarn
+- Expo Go instalado no celular (iOS/Android) **ou** Android Emulator/iOS Simulator
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Instalação
 
 ```bash
-npm run reset-project
+git clone <repo-url>
+cd omnishop
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Execução
 
-## Learn more
+```bash
+# Expo Go (celular físico via QR Code)
+npx expo start
 
-To learn more about developing your project with Expo, look at the following resources:
+# Emulador Android
+npx expo start --android
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+# Simulador iOS
+npx expo start --ios
+```
 
-## Join the community
+Escaneie o QR Code com o Expo Go (Android) ou a câmera (iOS).
 
-Join our community of developers creating universal apps.
+## Tecnologias
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+| Tecnologia | Versão | Uso |
+|---|---|---|
+| React Native | 0.81.5 | Framework mobile |
+| Expo | ~54.0 | SDK e toolchain |
+| TypeScript | ~5.9 | Tipagem estática |
+| Expo Router | ~6.0 | Navegação file-based |
+| Axios | ^1.x | Requisições HTTP |
+| AsyncStorage | ^2.x | Persistência local |
+| Inter (expo-google-fonts) | latest | Tipografia |
+| expo-image | ~3.0 | Exibição de imagens |
+| react-native-reanimated | ~4.1 | Animações (SkeletonCard) |
+
+**API:** [fakestoreapi.com](https://fakestoreapi.com)
+
+## Decisões Técnicas
+
+### Expo Router (file-based routing)
+Escolhido por ser o padrão atual do Expo SDK 54, integra React Navigation nativamente via sistema de arquivos. A estrutura `app/(tabs)/` com `app/product/[id].tsx` é legível e escalável.
+
+### AppContext para estado compartilhado
+`index.tsx` e `favorites.tsx` são montadas simultaneamente como tabs. O `AppContext` centraliza os hooks `useProducts` e `useFavorites` para evitar chamadas duplicadas à API e manter favoritos em sincronia entre telas.
+
+### FlatList com numColumns={2}
+Garante recycling de células (virtual list), essencial para listas longas. Utiliza `initialNumToRender`, `maxToRenderPerBatch` e `windowSize` para controle fino de renderização.
+
+### useMemo para filtros locais
+Busca e filtro por categoria são operações locais sobre os dados já carregados. O `useMemo` garante que a lista filtrada só é recalculada quando `products`, `searchQuery` ou `selectedCategory` mudam.
+
+### expo-image em vez de Image do RN
+Cache automático de imagens, transições suaves, suporte a `contentFit`, e melhor performance geral no carregamento de imagens de produto.
+
+### Skeleton loading em vez de spinner
+O skeleton (placeholder animado) dá feedback imediato ao usuário sobre a estrutura da lista antes dos dados chegarem, reduzindo a percepção de latência.
+
+## Limitações Conhecidas
+
+- A API não tem autenticação; em produção, um backend próprio seria necessário.
+- Os dados da API estão em inglês (títulos, categorias, descrições).
+- Não há paginação real — todos os produtos são carregados de uma vez (~20 itens).
+- Sem modo offline além dos favoritos persistidos.
+- O spinner duplo do protótipo HTML usa SVG; foi substituído por `ActivityIndicator` nativo para evitar a dependência `react-native-svg`.
+
+## Performance e Boas Práticas
+
+- **FlatList virtualizada** com `numColumns={2}` para listas de produtos
+- **useMemo** nos filtros de busca e categoria
+- **useCallback** nos handlers de toggle favorito e refresh
+- **expo-image** para cache e lazy loading de imagens
+- **Skeleton** para loading state com melhor percepção de velocidade
+- **AsyncStorage** lido uma única vez no mount; escritas são assíncronas e não bloqueiam a UI
+- **TypeScript strict** em todo o projeto

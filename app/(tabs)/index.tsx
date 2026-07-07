@@ -19,17 +19,30 @@ import { Colors } from '@/constants/colors';
 import { Typography, Spacing } from '@/constants/typography';
 import { Product } from '@/types';
 
+// Componente extraído em nível de módulo para que o FlatList receba sempre
+// a mesma referência de tipo de componente — evita desmontar/remontar o
+// TextInput (e fechar o teclado) a cada keystroke.
+function HomeListHeader() {
+  const { searchQuery, setSearchQuery, categories, selectedCategory, setSelectedCategory } =
+    useAppContext();
+  return (
+    <View style={styles.listHeader}>
+      <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
+      <CategoryChips
+        categories={categories}
+        selected={selectedCategory}
+        onSelect={setSelectedCategory}
+      />
+    </View>
+  );
+}
+
 export default function HomeScreen() {
   const {
     filteredProducts,
-    categories,
     loading,
     refreshing,
     error,
-    searchQuery,
-    setSearchQuery,
-    selectedCategory,
-    setSelectedCategory,
     onRefresh,
     retry,
     isFavorite,
@@ -45,20 +58,6 @@ export default function HomeScreen() {
       />
     ),
     [isFavorite, toggleFavorite],
-  );
-
-  const renderHeader = useCallback(
-    () => (
-      <View style={styles.listHeader}>
-        <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
-        <CategoryChips
-          categories={categories}
-          selected={selectedCategory}
-          onSelect={setSelectedCategory}
-        />
-      </View>
-    ),
-    [searchQuery, setSearchQuery, categories, selectedCategory, setSelectedCategory],
   );
 
   const TopBar = (
@@ -96,7 +95,7 @@ export default function HomeScreen() {
         numColumns={2}
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.listContent}
-        ListHeaderComponent={renderHeader}
+        ListHeaderComponent={HomeListHeader}
         renderItem={renderItem}
         refreshControl={
           <RefreshControl

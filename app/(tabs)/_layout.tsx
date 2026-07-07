@@ -1,24 +1,9 @@
 // app/(tabs)/_layout.tsx
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Pressable, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
-import type { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
-
-function TabButton({ children, onPress, onLongPress, accessibilityState, style }: BottomTabBarButtonProps) {
-  const active = accessibilityState?.selected ?? false;
-  return (
-    <Pressable
-      onPress={onPress}
-      onLongPress={onLongPress}
-      accessibilityState={accessibilityState}
-      style={[styles.tabButton, active && styles.tabButtonActive]}
-    >
-      {children}
-    </Pressable>
-  );
-}
 
 export default function TabLayout() {
   return (
@@ -26,7 +11,7 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: Colors.onPrimaryContainer,
+        tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.onSurfaceVariant,
         tabBarLabelStyle: styles.tabLabel,
         tabBarItemStyle: styles.tabItem,
@@ -36,7 +21,6 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarButton: (props) => <TabButton {...props} />,
           tabBarIcon: ({ focused, color }) => (
             <Ionicons name={focused ? 'home' : 'home-outline'} size={24} color={color} />
           ),
@@ -46,7 +30,6 @@ export default function TabLayout() {
         name="favorites"
         options={{
           title: 'Favoritos',
-          tabBarButton: (props) => <TabButton {...props} />,
           tabBarIcon: ({ focused, color }) => (
             <Ionicons name={focused ? 'heart' : 'heart-outline'} size={24} color={color} />
           ),
@@ -66,24 +49,15 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 8,
     height: 64,
-  },
-  tabButton: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 8,
-    marginVertical: 6,
-    borderRadius: 10,
-    gap: 2,
-  },
-  tabButtonActive: {
-    backgroundColor: Colors.primaryContainer,
+    paddingBottom: 8,
+    paddingTop: 6,
   },
   tabLabel: {
     ...Typography.labelMd,
     fontSize: 12,
   },
   tabItem: {
-    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

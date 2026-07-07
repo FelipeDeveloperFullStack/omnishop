@@ -1,6 +1,6 @@
 // components/SkeletonCard.tsx
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -9,9 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Colors } from '@/constants/colors';
 import { Spacing } from '@/constants/typography';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const CARD_WIDTH = (SCREEN_WIDTH - Spacing.containerPadding * 2 - Spacing.gutter) / 2;
+import { CARD_WIDTH, Shadows } from '@/constants/layout';
 
 export function SkeletonCard() {
   const opacity = useSharedValue(1);
@@ -40,10 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surfaceContainerLowest,
     borderRadius: 12,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
+    ...Shadows.md,
     elevation: 3,
   },
   image: {

@@ -15,6 +15,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getProduct } from '@/services/api';
 import { useAppContext } from '@/context/AppContext';
 import { ErrorState } from '@/components/ErrorState';
+import { RatingBadge } from '@/components/RatingBadge';
 import { Product } from '@/types';
 import { Colors } from '@/constants/colors';
 import { Typography, Spacing } from '@/constants/typography';
@@ -115,12 +116,7 @@ export default function ProductDetailScreen() {
                 {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
               </Text>
             </View>
-            <View style={styles.ratingRow}>
-              <Ionicons name="star" size={14} color={Colors.starYellow} />
-              <Text style={styles.ratingText}>
-                {product.rating.rate.toFixed(1)} ({product.rating.count} avaliações)
-              </Text>
-            </View>
+            <RatingBadge rate={product.rating.rate} count={product.rating.count} />
           </View>
 
           {/* Title */}
@@ -245,15 +241,6 @@ const styles = StyleSheet.create({
   categoryText: {
     ...Typography.labelMd,
     color: Colors.primary,
-  },
-  ratingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  ratingText: {
-    ...Typography.labelMd,
-    color: Colors.onSurfaceVariant,
   },
   title: {
     ...Typography.headlineLgMobile,

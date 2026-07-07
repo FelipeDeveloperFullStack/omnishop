@@ -1,12 +1,13 @@
 // components/ProductCard.tsx
 import React, { useCallback } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Pressable, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Product } from '@/types';
 import { Colors } from '@/constants/colors';
 import { Typography, Spacing } from '@/constants/typography';
+import { CARD_WIDTH, Shadows } from '@/constants/layout';
 import { RatingBadge } from './RatingBadge';
 
 interface Props {
@@ -14,9 +15,6 @@ interface Props {
   isFavorite: boolean;
   onToggleFavorite: (id: number) => void;
 }
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const CARD_WIDTH = (SCREEN_WIDTH - Spacing.containerPadding * 2 - Spacing.gutter) / 2;
 
 export function ProductCard({ product, isFavorite, onToggleFavorite }: Props) {
   const handlePress = useCallback(() => {
@@ -76,10 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surfaceContainerLowest,
     borderRadius: 12,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
+    ...Shadows.md,
     elevation: 3,
   },
   cardPressed: {
@@ -104,11 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(249,249,255,0.85)',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    ...Shadows.sm,
   },
   body: {
     padding: Spacing.stackMd,

@@ -1,14 +1,9 @@
 // app/(tabs)/index.tsx
-import React, { useCallback } from 'react';
-import {
-  View,
-  FlatList,
-  StyleSheet,
-  RefreshControl,
-} from 'react-native';
+import React from 'react';
+import { View, StyleSheet, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppContext } from '@/context/AppContext';
-import { ProductCard } from '@/components/ProductCard';
+import { ProductGrid } from '@/components/ProductGrid';
 import { SearchBar } from '@/components/SearchBar';
 import { CategoryChips } from '@/components/CategoryChips';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
@@ -16,7 +11,6 @@ import { ErrorState } from '@/components/ErrorState';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { Colors } from '@/constants/colors';
 import { Spacing } from '@/constants/typography';
-import { Product } from '@/types';
 
 // Componente extraído em nível de módulo para que o FlatList receba sempre
 // a mesma referência de tipo de componente — evita desmontar/remontar o
@@ -49,17 +43,6 @@ export default function HomeScreen() {
     toggleFavorite,
   } = useAppContext();
 
-  const renderItem = useCallback(
-    ({ item }: { item: Product }) => (
-      <ProductCard
-        product={item}
-        isFavorite={isFavorite(item.id)}
-        onToggleFavorite={toggleFavorite}
-      />
-    ),
-    [isFavorite, toggleFavorite],
-  );
-
   if (loading) {
     return (
       <SafeAreaView style={styles.container}>
@@ -81,15 +64,12 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScreenHeader title="OmniShop" />
-      <FlatList
-        data={filteredProducts}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.listContent}
+      <ProductGrid
+        products={filteredProducts}
+        favoriteIds={favoriteIds}
+        isFavorite={isFavorite}
+        onToggleFavorite={toggleFavorite}
         ListHeaderComponent={HomeListHeader}
-        renderItem={renderItem}
-        extraData={favoriteIds}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -98,10 +78,6 @@ export default function HomeScreen() {
             colors={[Colors.primary]}
           />
         }
-        initialNumToRender={6}
-        maxToRenderPerBatch={10}
-        windowSize={10}
-        showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>
   );
@@ -117,13 +93,5 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.stackLg,
     paddingBottom: Spacing.stackMd,
     gap: Spacing.stackMd,
-  },
-  listContent: {
-    paddingHorizontal: Spacing.containerPadding,
-    paddingBottom: Spacing.stackLg,
-  },
-  row: {
-    gap: Spacing.gutter,
-    marginBottom: Spacing.gutter,
   },
 });

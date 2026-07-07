@@ -1,6 +1,7 @@
 // app/(tabs)/favorites.tsx
 import React, { useCallback } from 'react';
-import { View, FlatList, StyleSheet, Text, SafeAreaView } from 'react-native';
+import { View, FlatList, StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { useRouter } from 'expo-router';
 import { useAppContext } from '@/context/AppContext';

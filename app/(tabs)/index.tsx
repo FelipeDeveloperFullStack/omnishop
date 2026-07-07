@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: Spacing.containerPadding,
     paddingVertical: Spacing.stackSm,

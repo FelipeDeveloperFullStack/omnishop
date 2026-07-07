@@ -32,4 +32,7 @@ export const Colors = {
   inverseOnSurface: '#ebf1ff',
   inversePrimary: '#adc6ff',
   surfaceTint: '#005ac2',
+  // Cores semânticas do DESIGN.md
+  favoriteActive: '#EF4444',   // vermelho vivo para o coração preenchido
+  starYellow: '#F59E0B',       // âmbar para estrelas de avaliação
 } as const;

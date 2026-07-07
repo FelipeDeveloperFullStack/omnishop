@@ -13,7 +13,7 @@ interface Props {
 export function RatingBadge({ rate, count }: Props) {
   return (
     <View style={styles.container}>
-      <Ionicons name="star" size={14} color={Colors.secondaryContainer} />
+      <Ionicons name="star" size={14} color={Colors.starYellow} />
       <Text style={styles.text}>
         {rate.toFixed(1)} ({count})
       </Text>

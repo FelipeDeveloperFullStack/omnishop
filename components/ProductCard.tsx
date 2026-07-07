@@ -48,7 +48,7 @@ export function ProductCard({ product, isFavorite, onToggleFavorite }: Props) {
           <Ionicons
             name={isFavorite ? 'heart' : 'heart-outline'}
             size={20}
-            color={isFavorite ? Colors.error : Colors.onSurfaceVariant}
+            color={isFavorite ? Colors.favoriteActive : Colors.onSurfaceVariant}
           />
         </TouchableOpacity>
       </View>

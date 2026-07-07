@@ -116,7 +116,7 @@ export default function ProductDetailScreen() {
               </Text>
             </View>
             <View style={styles.ratingRow}>
-              <Ionicons name="star" size={14} color={Colors.secondaryContainer} />
+              <Ionicons name="star" size={14} color={Colors.starYellow} />
               <Text style={styles.ratingText}>
                 {product.rating.rate.toFixed(1)} ({product.rating.count} avaliações)
               </Text>

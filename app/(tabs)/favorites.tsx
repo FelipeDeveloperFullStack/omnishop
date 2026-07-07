@@ -1,6 +1,7 @@
 // app/(tabs)/favorites.tsx
 import React, { useCallback } from 'react';
 import { View, FlatList, StyleSheet, Text, SafeAreaView } from 'react-native';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { useRouter } from 'expo-router';
 import { useAppContext } from '@/context/AppContext';
 import { ProductCard } from '@/components/ProductCard';
@@ -11,7 +12,7 @@ import { Product } from '@/types';
 
 export default function FavoritesScreen() {
   const router = useRouter();
-  const { products, favoriteIds, isFavorite, toggleFavorite } = useAppContext();
+  const { products, loading, favoriteIds, isFavorite, toggleFavorite } = useAppContext();
 
   const favoriteProducts = products.filter((p) => favoriteIds.has(p.id));
 
@@ -35,7 +36,9 @@ export default function FavoritesScreen() {
       <View style={styles.topBar}>
         <Text style={styles.title}>Meus Favoritos</Text>
       </View>
-      {favoriteProducts.length === 0 ? (
+      {loading ? (
+        <LoadingSpinner />
+      ) : favoriteProducts.length === 0 ? (
         <EmptyState onExplore={handleExplore} />
       ) : (
         <FlatList

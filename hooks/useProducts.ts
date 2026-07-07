@@ -46,6 +46,11 @@ export function useProducts() {
     return result;
   }, [products, selectedCategory, searchQuery]);
 
+  const retry = useCallback((): Promise<void> => {
+    setLoading(true);
+    return fetchData().finally(() => setLoading(false));
+  }, [fetchData]);
+
   return {
     products,
     categories,
@@ -58,6 +63,6 @@ export function useProducts() {
     selectedCategory,
     setSelectedCategory,
     onRefresh,
-    retry: fetchData,
+    retry,
   };
 }

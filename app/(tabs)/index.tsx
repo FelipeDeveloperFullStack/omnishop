@@ -1,98 +1,155 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+// app/(tabs)/index.tsx
+import React, { useCallback } from 'react';
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  RefreshControl,
+  SafeAreaView,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useAppContext } from '@/context/AppContext';
+import { ProductCard } from '@/components/ProductCard';
+import { SearchBar } from '@/components/SearchBar';
+import { CategoryChips } from '@/components/CategoryChips';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { ErrorState } from '@/components/ErrorState';
+import { Colors } from '@/constants/colors';
+import { Typography, Spacing } from '@/constants/typography';
+import { Product } from '@/types';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const {
+    filteredProducts,
+    categories,
+    loading,
+    refreshing,
+    error,
+    searchQuery,
+    setSearchQuery,
+    selectedCategory,
+    setSelectedCategory,
+    onRefresh,
+    retry,
+    isFavorite,
+    toggleFavorite,
+  } = useAppContext();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const renderItem = useCallback(
+    ({ item }: { item: Product }) => (
+      <ProductCard
+        product={item}
+        isFavorite={isFavorite(item.id)}
+        onToggleFavorite={toggleFavorite}
+      />
+    ),
+    [isFavorite, toggleFavorite],
+  );
+
+  const renderHeader = useCallback(
+    () => (
+      <View style={styles.listHeader}>
+        <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
+        <CategoryChips
+          categories={categories}
+          selected={selectedCategory}
+          onSelect={setSelectedCategory}
+        />
+      </View>
+    ),
+    [searchQuery, setSearchQuery, categories, selectedCategory, setSelectedCategory],
+  );
+
+  const TopBar = (
+    <View style={styles.topBar}>
+      <Ionicons name="menu" size={24} color={Colors.onSurfaceVariant} />
+      <Text style={styles.appTitle}>OmniShop</Text>
+      <Ionicons name="bag-outline" size={24} color={Colors.onSurfaceVariant} />
+    </View>
+  );
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        {TopBar}
+        <LoadingSpinner />
+      </SafeAreaView>
+    );
+  }
+
+  if (error) {
+    return (
+      <SafeAreaView style={styles.container}>
+        {TopBar}
+        <ErrorState onRetry={retry} />
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      {TopBar}
+      <FlatList
+        data={filteredProducts}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={styles.row}
+        contentContainerStyle={styles.listContent}
+        ListHeaderComponent={renderHeader}
+        renderItem={renderItem}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={Colors.primary}
+            colors={[Colors.primary]}
+          />
+        }
+        initialNumToRender={6}
+        maxToRenderPerBatch={10}
+        windowSize={10}
+        showsVerticalScrollIndicator={false}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: Colors.surface,
+  },
+  topBar: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 8,
+    paddingHorizontal: Spacing.containerPadding,
+    paddingVertical: Spacing.stackSm,
+    backgroundColor: Colors.surface,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
+    elevation: 4,
+    zIndex: 10,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  appTitle: {
+    ...Typography.headlineLgMobile,
+    color: Colors.primary,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  listHeader: {
+    paddingHorizontal: Spacing.containerPadding,
+    paddingTop: Spacing.stackLg,
+    paddingBottom: Spacing.stackMd,
+    gap: Spacing.stackMd,
+  },
+  listContent: {
+    paddingHorizontal: Spacing.containerPadding,
+    paddingBottom: Spacing.stackLg,
+  },
+  row: {
+    gap: Spacing.gutter,
+    marginBottom: Spacing.gutter,
   },
 });

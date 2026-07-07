@@ -8,7 +8,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
 import { useAppContext } from '@/context/AppContext';
 import { ProductCard } from '@/components/ProductCard';
 import { SearchBar } from '@/components/SearchBar';
@@ -63,9 +62,7 @@ export default function HomeScreen() {
 
   const TopBar = (
     <View style={styles.topBar}>
-      <Ionicons name="menu" size={24} color={Colors.onSurfaceVariant} />
       <Text style={styles.appTitle}>OmniShop</Text>
-      <Ionicons name="bag-outline" size={24} color={Colors.onSurfaceVariant} />
     </View>
   );
 

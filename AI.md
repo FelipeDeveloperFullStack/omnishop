@@ -15,9 +15,11 @@
 
 ## Exemplo de Prompt Utilizado
 
-> "Preciso construir um app React Native com Expo e TypeScript que consuma a API pública fakestoreapi.com. O app deve ter tela de listagem de produtos com busca local por nome, filtro por categoria carregado da API, tela de detalhes do produto com imagem, título, preço, descrição e avaliação, e tela de favoritos com persistência via AsyncStorage. Siga fielmente os protótipos HTML e o design system fornecidos. Use Axios para as chamadas HTTP, Expo Router para navegação, e implemente pull-to-refresh, loading skeleton, e mensagem de erro com retry. Antes de começar, crie a branch feature/omnishop-app."
+O prompt abaixo foi enviado após a aprovação da design spec, para iniciar o plano de implementação:
 
-A partir desse prompt inicial, a IA analisou os protótipos HTML e o `DESIGN.md`, propôs a arquitetura do projeto (design spec) e, após aprovação, gerou o plano de implementação task-by-task com código completo para cada arquivo. A execução foi feita via subagentes, um por tarefa, com commits atômicos.
+> "Com base na spec aprovada, crie o plano de implementação completo task-by-task. Cada task deve especificar os arquivos a criar ou modificar, o código exato de cada um e a mensagem de commit. Siga a ordem de dependências: tipos e constantes primeiro, depois serviços, hooks, contexto, componentes atômicos, componentes compostos e por fim as telas. Garanta que cada task seja atômica e que o app esteja funcional ao final de cada etapa."
+
+A partir desse prompt, a IA gerou um plano com 21 tasks cobrindo toda a implementação. A execução foi feita via subagentes, um por tarefa, com commits atômicos em cada etapa.
 
 ## Ajustes Realizados Manualmente
 

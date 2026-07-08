@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 8,
     paddingTop: 8,
+    paddingBottom: 8,
   },
   tabLabel: {
     ...Typography.labelMd,

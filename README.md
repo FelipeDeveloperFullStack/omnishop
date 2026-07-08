@@ -15,7 +15,7 @@ Aplicativo mobile de catálogo de produtos desenvolvido com React Native e Expo 
 ## Instalação e Execução
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/FelipeDeveloperFullStack/omnishop.git
 cd omnishop
 npm install
 ```
@@ -63,23 +63,23 @@ omnishop/
 
 ## Tecnologias Utilizadas
 
-| Tecnologia                       | Versão    | Uso                                        |
-| -------------------------------- | --------- | ------------------------------------------ |
-| React Native                     | 0.81.5    | Framework mobile                           |
-| Expo                             | ~54.0     | SDK e toolchain                            |
-| TypeScript                       | ~5.9      | Tipagem estática em todo o projeto         |
-| Expo Router                      | ~6.0      | Navegação file-based                       |
-| Axios                            | ^1.18     | Requisições HTTP à Fake Store API          |
-| AsyncStorage                     | 2.2.0     | Persistência local dos favoritos           |
-| expo-image                       | ~3.0      | Exibição de imagens com cache automático   |
-| @expo-google-fonts/inter         | ^0.4.2    | Tipografia Inter (400, 600, 700)           |
-| expo-haptics                     | ~15.0     | Feedback tátil ao favoritar/desfavoritar   |
-| react-native-reanimated          | ~4.1      | Animações do SkeletonCard                  |
-| react-native-safe-area-context   | ~5.6      | Safe area em iOS e Android                 |
-| react-native-gesture-handler     | ~2.28     | Suporte a gestos (base do Expo Router)     |
-| react-native-svg                 | 15.12     | Renderização de SVGs (lucide-react-native) |
-| lucide-react-native              | ^1.23     | Ícones de produto e interface              |
-| @expo/vector-icons               | ^15.0     | Ícones Ionicons (navegação, favoritos)     |
+| Tecnologia                     | Versão | Uso                                        |
+| ------------------------------ | ------ | ------------------------------------------ |
+| React Native                   | 0.81.5 | Framework mobile                           |
+| Expo                           | ~54.0  | SDK e toolchain                            |
+| TypeScript                     | ~5.9   | Tipagem estática em todo o projeto         |
+| Expo Router                    | ~6.0   | Navegação file-based                       |
+| Axios                          | ^1.18  | Requisições HTTP à Fake Store API          |
+| AsyncStorage                   | 2.2.0  | Persistência local dos favoritos           |
+| expo-image                     | ~3.0   | Exibição de imagens com cache automático   |
+| @expo-google-fonts/inter       | ^0.4.2 | Tipografia Inter (400, 600, 700)           |
+| expo-haptics                   | ~15.0  | Feedback tátil ao favoritar/desfavoritar   |
+| react-native-reanimated        | ~4.1   | Animações do SkeletonCard                  |
+| react-native-safe-area-context | ~5.6   | Safe area em iOS e Android                 |
+| react-native-gesture-handler   | ~2.28  | Suporte a gestos (base do Expo Router)     |
+| react-native-svg               | 15.12  | Renderização de SVGs (lucide-react-native) |
+| lucide-react-native            | ^1.23  | Ícones de produto e interface              |
+| @expo/vector-icons             | ^15.0  | Ícones Ionicons (navegação, favoritos)     |
 
 **API:** [fakestoreapi.com](https://fakestoreapi.com)
 

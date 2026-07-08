@@ -2,19 +2,26 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.onSurfaceVariant,
         tabBarLabelStyle: styles.tabLabel,
-        tabBarItemStyle: styles.tabItem,
+        tabBarStyle: [
+          styles.tabBar,
+          // Adiciona o inset do sistema (barra de navegação Android) como
+          // paddingBottom FORA da altura do conteúdo — ícone e label nunca ficam cortados
+          { paddingBottom: Math.max(insets.bottom, 8) },
+        ],
       }}
     >
       <Tabs.Screen
@@ -49,14 +56,10 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 8,
     paddingTop: 8,
-    paddingBottom: 8,
+    // paddingBottom é definido dinamicamente acima com useSafeAreaInsets
   },
   tabLabel: {
     ...Typography.labelMd,
     fontSize: 12,
-  },
-  tabItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@/components/Icon';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getProduct } from '@/services/api';
 import { useAppContext } from '@/context/AppContext';

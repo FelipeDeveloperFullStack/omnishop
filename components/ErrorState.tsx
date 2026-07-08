@@ -1,7 +1,7 @@
 // components/ErrorState.tsx
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@/components/Icon';
 import { Colors } from '@/constants/colors';
 import { Typography, Spacing } from '@/constants/typography';
 

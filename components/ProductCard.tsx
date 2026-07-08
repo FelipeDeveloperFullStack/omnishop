@@ -2,7 +2,7 @@
 import React, { useCallback } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
 import { Image } from 'expo-image';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@/components/Icon';
 import { router } from 'expo-router';
 import { Product } from '@/types';
 import { Colors } from '@/constants/colors';

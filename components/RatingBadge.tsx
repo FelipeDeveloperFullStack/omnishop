@@ -1,7 +1,7 @@
 // components/RatingBadge.tsx
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from '@/components/Icon';
 import { Colors } from '@/constants/colors';
 import { Typography } from '@/constants/typography';
 

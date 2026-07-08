@@ -15,9 +15,9 @@
 
 ## Exemplo de Prompt Utilizado
 
-> "Pode iniciar o /writing-plans"
+> "Preciso construir um app React Native com Expo e TypeScript que consuma a API pública fakestoreapi.com. O app deve ter tela de listagem de produtos com busca local por nome, filtro por categoria carregado da API, tela de detalhes do produto com imagem, título, preço, descrição e avaliação, e tela de favoritos com persistência via AsyncStorage. Siga fielmente os protótipos HTML e o design system fornecidos. Use Axios para as chamadas HTTP, Expo Router para navegação, e implemente pull-to-refresh, loading skeleton, e mensagem de erro com retry. Antes de começar, crie a branch feature/omnishop-app."
 
-O prompt inicial que desencadeou todo o projeto foi o enunciado do teste técnico com as instruções das telas, tecnologias obrigatórias, e a referência aos protótipos HTML e DESIGN.md. A partir da aprovação do design proposto, a IA gerou o plano de implementação completo e executou cada task via subagentes.
+A partir desse prompt inicial, a IA analisou os protótipos HTML e o `DESIGN.md`, propôs a arquitetura do projeto (design spec) e, após aprovação, gerou o plano de implementação task-by-task com código completo para cada arquivo. A execução foi feita via subagentes, um por tarefa, com commits atômicos.
 
 ## Ajustes Realizados Manualmente
 

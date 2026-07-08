@@ -48,9 +48,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 12,
     elevation: 8,
-    height: 64,
-    paddingBottom: 8,
-    paddingTop: 6,
+    paddingTop: 8,
   },
   tabLabel: {
     ...Typography.labelMd,

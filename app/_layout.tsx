@@ -10,6 +10,7 @@ import {
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppProvider } from '@/context/AppContext';
 
 SplashScreen.preventAutoHideAsync();
@@ -38,12 +39,14 @@ export default function RootLayout() {
   }
 
   return (
-    <AppProvider>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="product/[id]" options={{ headerShown: false }} />
-      </Stack>
-      <StatusBar style="dark" />
-    </AppProvider>
+    <SafeAreaProvider>
+      <AppProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="product/[id]" options={{ headerShown: false }} />
+        </Stack>
+        <StatusBar style="dark" />
+      </AppProvider>
+    </SafeAreaProvider>
   );
 }

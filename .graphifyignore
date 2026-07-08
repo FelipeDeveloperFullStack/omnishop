@@ -1,0 +1,10 @@
+node_modules/
+assets/
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.svg
+docs/
+*.md

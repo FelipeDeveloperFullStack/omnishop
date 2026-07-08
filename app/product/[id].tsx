@@ -1,25 +1,25 @@
 // app/product/[id].tsx
-import React, { useEffect, useState, useCallback } from 'react';
+import { ErrorState } from "@/components/ErrorState";
+import { Ionicons } from "@/components/Icon";
+import { RatingBadge } from "@/components/RatingBadge";
+import { Colors } from "@/constants/colors";
+import { Spacing, Typography } from "@/constants/typography";
+import { useAppContext } from "@/context/AppContext";
+import { getProduct } from "@/services/api";
+import { Product } from "@/types";
+import { Image } from "expo-image";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useCallback, useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
   ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
   useWindowDimensions,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Image } from 'expo-image';
-import { Ionicons } from '@/components/Icon';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { getProduct } from '@/services/api';
-import { useAppContext } from '@/context/AppContext';
-import { ErrorState } from '@/components/ErrorState';
-import { RatingBadge } from '@/components/RatingBadge';
-import { Product } from '@/types';
-import { Colors } from '@/constants/colors';
-import { Typography, Spacing } from '@/constants/typography';
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -28,7 +28,9 @@ export default function ProductDetailScreen() {
   const { width: screenWidth } = useWindowDimensions();
   const isTablet = screenWidth >= 768;
   // Largura máxima do conteúdo em tablets — centraliza sem esticar
-  const contentMaxWidth = isTablet ? Math.min(screenWidth * 0.85, 860) : undefined;
+  const contentMaxWidth = isTablet
+    ? Math.min(screenWidth * 0.85, 860)
+    : undefined;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -66,7 +68,11 @@ export default function ProductDetailScreen() {
           onPress={() => router.back()}
           activeOpacity={0.7}
         >
-          <Ionicons name="arrow-back" size={24} color={Colors.onSurfaceVariant} />
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={Colors.onSurfaceVariant}
+          />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Detalhes</Text>
         <View style={styles.headerRight} />
@@ -102,28 +108,40 @@ export default function ProductDetailScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Wrapper centralizado para tablets */}
-        <View style={{ maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }}>
-          {/* Hero Image */}
-          <View style={[styles.heroContainer, isTablet && styles.heroContainerTablet]}>
-            <Image
-              source={{ uri: product.image }}
-              style={styles.heroImage}
-              contentFit="contain"
-              transition={300}
-            />
-          </View>
+        {/* Hero Image — sempre largura total da tela */}
+        <Image
+          source={{ uri: product.image }}
+          style={[
+            styles.heroImage,
+            { width: screenWidth, height: isTablet ? 420 : screenWidth },
+          ]}
+          contentFit="contain"
+          transition={300}
+        />
 
+        {/* Wrapper centralizado para tablets */}
+        <View
+          style={{
+            flexGrow: 1,
+            maxWidth: contentMaxWidth,
+            width: "100%",
+            alignSelf: "center",
+          }}
+        >
           {/* Details Panel */}
           <View style={styles.panel}>
             {/* Category + Rating row */}
             <View style={styles.metaRow}>
               <View style={styles.categoryBadge}>
                 <Text style={styles.categoryText}>
-                  {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
+                  {product.category.charAt(0).toUpperCase() +
+                    product.category.slice(1)}
                 </Text>
               </View>
-              <RatingBadge rate={product.rating.rate} count={product.rating.count} />
+              <RatingBadge
+                rate={product.rating.rate}
+                count={product.rating.count}
+              />
             </View>
 
             {/* Title */}
@@ -155,12 +173,12 @@ export default function ProductDetailScreen() {
             activeOpacity={0.85}
           >
             <Ionicons
-              name={favorited ? 'heart' : 'heart-outline'}
+              name={favorited ? "trash" : "heart-outline"}
               size={20}
               color={Colors.onPrimary}
             />
             <Text style={styles.favoriteButtonText}>
-              {favorited ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
+              {favorited ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
             </Text>
           </TouchableOpacity>
         </SafeAreaView>
@@ -176,21 +194,21 @@ const styles = StyleSheet.create({
   },
   centered: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   headerSafe: {
     backgroundColor: Colors.surface,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: Spacing.containerPadding,
     paddingVertical: Spacing.stackSm,
     height: 56,
     backgroundColor: Colors.surface,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.05,
     shadowRadius: 12,
@@ -200,8 +218,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   headerTitle: {
     ...Typography.headlineMd,
@@ -214,41 +232,34 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 120,
-  },
-  heroContainer: {
-    width: '100%',
-    aspectRatio: 1,
-    maxHeight: 480,
-    backgroundColor: Colors.surfaceContainerLowest,
-  },
-  heroContainerTablet: {
-    maxHeight: 420,
-    borderRadius: 16,
-    overflow: 'hidden',
+    flexGrow: 1,
   },
   heroImage: {
-    width: '100%',
-    height: '100%',
+    backgroundColor: "#ffffff",
   },
   panel: {
+    flex: 1,
     backgroundColor: Colors.surfaceContainerLowest,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     marginTop: -16,
     paddingHorizontal: Spacing.containerPadding,
     paddingTop: Spacing.stackMd,
+    paddingBottom: 120,
     gap: Spacing.stackMd,
+    // boxShadow: sombra suave só em cima — funciona em iOS e Android (New Architecture / RN 0.81)
+    boxShadow: '0px -8px 20px rgba(0, 0, 0, 0.10)' as any,
+    // Fallback iOS pré-Fabric
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    elevation: 4,
+    shadowOffset: { width: 0, height: -8 },
+    shadowOpacity: 0.10,
+    shadowRadius: 16,
+    elevation: 0,
   },
   metaRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   categoryBadge: {
     backgroundColor: Colors.surfaceContainer,
@@ -283,7 +294,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   bottomBar: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
@@ -292,16 +303,16 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.outlineVariant,
     paddingHorizontal: Spacing.containerPadding,
     paddingTop: Spacing.stackMd,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.05,
     shadowRadius: 12,
     elevation: 8,
   },
   favoriteButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: 8,
     height: 48,
     backgroundColor: Colors.primary,
@@ -313,7 +324,7 @@ const styles = StyleSheet.create({
   },
   favoriteButtonTablet: {
     maxWidth: 480,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   favoriteButtonText: {
     ...Typography.headlineMd,

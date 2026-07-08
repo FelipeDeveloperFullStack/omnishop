@@ -7,6 +7,7 @@ import {
   AlertCircle,
   RefreshCw,
   Star,
+  Trash2,
 } from 'lucide-react-native';
 
 type IoniconsName =
@@ -18,7 +19,8 @@ type IoniconsName =
   | 'search'
   | 'arrow-back'
   | 'alert-circle'
-  | 'refresh';
+  | 'refresh'
+  | 'trash';
 
 type FontAwesomeName = 'star';
 
@@ -56,6 +58,8 @@ export function Ionicons({ name, size = 24, color = '#000000' }: IoniconsProps) 
       return <AlertCircle size={size} color={color} />;
     case 'refresh':
       return <RefreshCw size={size} color={color} />;
+    case 'trash':
+      return <Trash2 size={size} color={color} />;
   }
 }
 
